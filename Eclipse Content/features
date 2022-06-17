@@ -1,0 +1,36 @@
+@Report
+Feature: Opening a Report
+   
+Scenario: Navigating to Report Page
+    Given User is on login page 
+    When User enters valid username and Password #Action
+    And click on login button # other action
+    Then  user is navigated to home page # expected output
+    When User clicks on Capillary Technologies drop down
+    And search for fnb organisation
+    And Click on REON_DATA_FnB
+    Then User is navigated to REON_DATA_FnB page
+    #When User clicks on bread Crumbs 
+    #And  clicks on Insights+
+    #Then  User is navigated to Report page
+    #When  User Search for a report
+    #And clicks on the report
+    #Then User is on the selected Report page
+    #When User clicks on calender
+    #And Clicks on To Date Option
+    #And Clicks on Month Till Date
+    #And Clicks on Compare time period
+    #And Clicks on Same month of last year
+    #And Turns On View Common Stores
+    #And Clicks on Apply
+    #When User goes back to the report page
+    #
+    
+    
+    
+    
+   # And  clicks on the profile
+   # And Click on log Out 
+   # Then User is is navigated to login page
+   # And Close the window
+    
