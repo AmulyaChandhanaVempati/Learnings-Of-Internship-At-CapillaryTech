@@ -1,0 +1,160 @@
+ReportPage.feature
+
+@Report
+Feature: Opening a Report
+
+Background: 
+    Given User is on login page 
+    When User enters valid username and Password #Action
+    And click on login button # other action
+
+Scenario: Validate login Page
+    Then  user is navigated to home page # expected output
+    And Close the window
+    
+Scenario: REON_DATA_FnB Page
+    Given User clicks on Capillary Technologies drop down
+    When User search for fnb organisation
+    And Click on REON_DATA_FnB
+    Then User is navigated to REON_DATA_FnB page
+    And Close the window
+    
+Scenario: Insights+ Page
+    Given User clicks on bread Crumbs 
+    When User clicks on Insights+
+    Then  User is navigated to Report page
+
+Scenario: Report
+    Given  User Search for a report
+    When User clicks on the report
+    Then User is on Report page
+    
+Scenario: Logout from page
+    Given User is on Report page
+    When User clicks on the profile
+    And Click on log Out 
+    Then User is is navigated to login page
+    And Close the window
+
+
+Report.java
+
+public class Report {
+	
+	WebDriver driver;
+	SoftAssert sa = new SoftAssert();
+	
+	
+	@Given("User is on login page")
+	public void user_is_on_login_page() {
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Amulya Chandhana V\\Downloads\\chromedriver.exe");
+		driver =  new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://crm-nightly-new.cc.capillarytech.com/");
+	}
+
+	@When("User enters valid username and Password #Action")
+	public void user_enters_valid_username_and_password_action() {
+		driver.findElement(By.xpath("//input[@id='login_user']")).sendKeys("ashish");
+		driver.findElement(By.xpath("//input[@id='login_cred']")).sendKeys("123");
+	}
+
+	@When("click on login button # other action")
+	public void click_on_login_button_other_action() {
+		driver.findElement(By.xpath("//input[@id='c-login-btn']")).click();
+	}
+
+	@Then("user is navigated to home page # expected output")
+	public void user_is_navigated_to_home_page_expected_output() {
+		String hometitle = driver.getTitle();
+		System.out.println("Title of the page : "+hometitle);
+		//Assert.assertEquals(hometitle,"Capillary InTouch >> Workbenchy");
+		sa.assertEquals(hometitle,"Capillary InTouch >> Workbenchy");
+	}
+
+	@Given("User clicks on Capillary Technologies drop down")
+	public void user_clicks_on_capillary_technologies_drop_down() {
+		driver.findElement(By.xpath("//span[@class='intouch-nav-selected-org-label']")).click();
+	}
+
+	@When("User search for fnb organisation")
+	public void user_search_for_fnb_organisation() {
+		driver.findElement(By.xpath("//input[@id='org-search-div']")).sendKeys("fnb");
+	}
+
+	@When("Click on REON_DATA_FnB")
+	public void click_on_reon_data_fn_b() {
+		driver.findElement(By.xpath("//li[text()='REON_DATA_FnB']")).click();
+	}
+
+	@Then("User is navigated to REON_DATA_FnB page")
+	public void user_is_navigated_to_reon_data_fn_b_page() {
+		 WebElement hometitle = driver.findElement(By.xpath("//span[@class='intouch-nav-selected-org-label']"));
+			System.out.println("WebElement: "+hometitle);
+			//sa.assertEquals(hometitle,"Capillary InTouch >> Workbench");
+	}
+
+	@Given("User clicks on bread Crumbs")
+	public void user_clicks_on_bread_crumbs() {
+		driver.findElement(By.xpath("//div[@class='intouch-nav-heading']")).click();
+	}
+
+	@When("User clicks on Insights+")
+	public void user_clicks_on_insights() throws InterruptedException {
+		driver.findElement(By.xpath("//li[text()='Insights+ ']")).click();
+	    Thread.sleep(5000);
+	}
+
+	@Then("User is navigated to Report page")
+	public void user_is_navigated_to_report_page() {
+		String PageTitle = driver.getTitle();
+		 System.out.println("Tilte : "+ PageTitle);
+		 sa.assertEquals(PageTitle, "Reports");
+	}
+
+	@Given("User Search for a report")
+	public void user_search_for_a_report() throws InterruptedException {
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//a[@id='pushActionRefuse']")).click();
+		driver.findElement(By.xpath("//input[@placeholder='Search reports']")).click();
+	  driver.findElement(By.xpath("//input[@placeholder='Search reports']")).sendKeys("Test_reportsui");
+	}
+
+	@When("User clicks on the report")
+	public void user_clicks_on_the_report() {
+		driver.findElement(By.xpath("//span[@class='normal-text']")).click();
+	}
+
+	@Then("User is on Report page")
+	public void user_is_on_report_page() {
+		String Reporttitle = driver.getTitle();
+		System.out.println("Title of the page : "+Reporttitle);
+		sa.assertEquals(Reporttitle,"Reports");
+	}
+
+	@When("User clicks on the profile")
+	public void user_clicks_on_the_profile() {
+		driver.findElement(By.xpath("//i[@class='anticon cap-icon-v2 cap-icon-v2-person cap-navbar-person CapIcon__AntIcon-sc-52535-0 dAqpdr']")).click();
+	}
+
+	@When("Click on log Out")
+	public void click_on_log_out() {
+		driver.findElement(By.xpath("//div[text()='Logout']")).click();
+	}
+
+	@Then("User is is navigated to login page")
+	public void user_is_is_navigated_to_login_page() {
+		String title = driver.getTitle();
+		System.out.println("Title of the page : "+title);
+		sa.assertEquals(title,"Login | Capillary Technologies");
+	}
+
+	@Then("Close the window")
+	public void close_the_window() throws InterruptedException {
+		Thread.sleep(3000);
+		driver.close();
+		sa.assertAll();   
+	}
+
+
+}
